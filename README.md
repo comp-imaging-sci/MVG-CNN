@@ -11,7 +11,7 @@ Washington University School of Engineering<br>
 
 **Abstract:** TODO
 <p align="center">
-<img src="./pic_recon/docs/face_recons_paper.png" alt="Face image reconstruction" width="500"/>
+<img src="./pic_recon/docs/MVG-CNN.png" alt="Face image reconstruction" width="500"/>
 </p>
 
 ## System Requirements
