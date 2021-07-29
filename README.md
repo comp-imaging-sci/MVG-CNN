@@ -29,11 +29,6 @@ The directory `network training` contains the top level scripts:
 - `train.sh`: Scripts for running the network training.
 
 The directory `MVG` contains the following sub-directories:
-- `src` Stores all python codes for image reconstruction.
-- `masks_mri` stores the MRI undersampling masks
-- `ground_truths` - images of ground truths
-- `prior_images`- Images and latent-projections of prior images.
-- `results` - stores the results of the reconstruction.
 
 ## Pretrained CNN weights
 TODO
