@@ -20,7 +20,7 @@ Washington University School of Engineering<br>
 - Tensorflow 2.2.0.
 - NVIDIA driver >= 440.59, CUDA toolkit >= 10.0
 - SciPy, NumPy, scikit-image, sklearn, matplotlib.
-- [Focal loss package](artemmavrin/focal-loss).
+- [Focal loss package](https://github.com/artemmavrin/focal-loss).
 - [Fast natural visibility graph MATLAB package](https://www.mathworks.com/matlabcentral/fileexchange/70432-fast-natural-visibility-graph-nvg-for-matlab).
 
 The conda environment including all necessaray packages can be created using file `environment.yml`:
