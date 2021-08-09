@@ -27,8 +27,20 @@ The conda environment including all necessaray packages can be created using fil
 ```
 conda env create --file environment.yml
 ```
-  
-## Directory structure
+ 
+## Dataset
+The WFCI data in this paper is available at PhysioNet: 
+
+## Construction of multiplex visibility graph
+The directory `MVG` contains the following sub-directories:
+- `atlas.mat`: variables for defining Paxinos atlas
+- `define_rois.m`: function used for defining which parcels will be used to construct MVG
+- `parcel2trace.m`: function to compute the avarage time series for each parcel
+- `extrac_MVG.m`: the main script to construct MVG
+
+The construction of MVG is based on MATLAB, simply modify the data path highlighted in comment and run `extract_MVG.m`.
+
+## Classifying sleep on MVG with deep learning
 The directory `network training` contains the top level scripts:
 - `dataloader_MVG.py`: Script for loading the MVG representations from WFCI data epochs
 - `model_cnn2d.py`: Script for the compact 2D CNN to classify sleep
@@ -37,26 +49,22 @@ The directory `network training` contains the top level scripts:
 - `train.sh`: Scripts for running the network training.
 - `checkpoints`: checkpoints for best model
 
-The directory `MVG` contains the following sub-directories:
-- `atlas.mat`: variables for defining Paxinos atlas
-- `define_rois.m`: function used for defining which parcels will be used to construct MVG
-- `parcel2trace.m`: function to compute the avarage time series for each parcel
-- `extrac_MVG.m`: the main script to construct MVG
-
-## Dataset
-The WFCI data in this paper is available at PhysioNet: 
+To train the network, make sure to 
+- Modify the data path highlighted in comment in `dataloader_MVG.py`.
+- Make you own `config.txt` listing the training/validation mouse name.
+- Define parameters in bash script `train.sh` and run `chmod u+x train.sh` to make the script executable.
+- Simply run `./train.sh` to start your training 
 
 ## Citations
 ```
 ```
 ## References
 ```
-@book{paxinos2019paxinos,
-  title={Paxinos and Franklin's the mouse brain in stereotaxic coordinates},
-  author={Paxinos, George and Franklin, Keith BJ},
-  year={2019},
-  publisher={Academic press}
-}
+1. Iacobello, G., Ridolfi, L., & Scarsoglio, S. (2021). Large-to-small scale frequency modulation analysis in wall-bounded turbulence via visibility networks. Journal of Fluid Mechanics, 918.
+Chicago	
+2. Iacobello, G., Marro, M., Ridolfi, L., Salizzoni, P., & Scarsoglio, S. (2019). Experimental investigation of vertical turbulent transport of a passive scalar in a boundary layer: Statistics and visibility graph analysis. Physical Review Fluids, 4(10), 104501.
+3. Paxinos, G., & Franklin, K. B. (2019). Paxinos and Franklin's the mouse brain in stereotaxic coordinates. Academic press.
+Chicago	
 ```
 
 
