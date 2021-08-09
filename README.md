@@ -30,21 +30,33 @@ conda env create --file environment.yml
   
 ## Directory structure
 The directory `network training` contains the top level scripts:
-- `dataloader.py`: Script for loading the MVG representations from WFCI epochs
+- `dataloader_MVG.py`: Script for loading the MVG representations from WFCI data epochs
 - `model_cnn2d.py`: Script for the compact 2D CNN to classify sleep
+- `utils.py`: script to compute evaluation metrics
+- `config.txt`: example txt. file for defining list of subjects used in training and validation
 - `train.sh`: Scripts for running the network training.
+- `checkpoints`: checkpoints for best model
 
 The directory `MVG` contains the following sub-directories:
-
-## Pretrained CNN weights
-TODO
+- `atlas.mat`: variables for defining Paxinos atlas
+- `define_rois.m`: function used for defining which parcels will be used to construct MVG
+- `parcel2trace.m`: function to compute the avarage time series for each parcel
+- `extrac_MVG.m`: the main script to construct MVG
 
 ## Dataset
 The WFCI data in this paper is available at PhysioNet: 
 
 ## Citations
-Please cite these papers if using the repository:
 ```
+```
+## References
+```
+@book{paxinos2019paxinos,
+  title={Paxinos and Franklin's the mouse brain in stereotaxic coordinates},
+  author={Paxinos, George and Franklin, Keith BJ},
+  year={2019},
+  publisher={Academic press}
+}
 ```
 
 
