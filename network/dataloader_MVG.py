@@ -14,21 +14,22 @@ class project_params:
         self.params = params
     
 def add_arguments(parser):
-    parser.add_argument('--data_path', type=str, default='/shared/anastasio-s1/MRI/xiaohui/mouse_optical/sleep-stage/')
-    parser.add_argument('--mice_flist', type=str, default='./config1.txt')
-    parser.add_argument('--batch_size', type=int, default=8)
-    parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--num_classes', type=int, default=2)
-    parser.add_argument('--test_mice', type=str, default='191204')
-    parser.add_argument('--brain_area', type=str, default='whole')
-    parser.add_argument('--loss',type=str,default='categorical')
-    parser.add_argument('--timelen', type=int, default=10)
+    parser.add_argument('--data_path', type=str, default='./parent/directory/to/the/main/data/path')
+    parser.add_argument('--mice_flist', type=str, default='./config1.txt', help='configuration txt file containing the mouse name used for training and validation')
+    parser.add_argument('--batch_size', type=int, default=8, help='batch size used in training')
+    parser.add_argument('--seed', type=int, default=42, help='a defined seed used globally')
+    parser.add_argument('--num_classes', type=int, default=3, help='2/3/4')
+    parser.add_argument('--test_mice', type=str, default='191204', help='the name of the test mice')
+    parser.add_argument('--brain_area', type=str, default='whole', help='number of parcels used in generating MVG')
+    parser.add_argument('--loss',type=str,default='categorical', help='categorical (cross-entropy loss)/focal (focal loss)')
+    parser.add_argument('--timelen', type=int, default=10, help='epoch duration in seconds')
 
     return parser
 
 class dataloader:
     def __init__(self, project):
         self.project = project
+        # create single separate txt file that contains mouse names used in both training and validation
         self.mice_flist = open(f"./{self.project.params.mice_flist}.txt", "r").read().splitlines()
         self.project.params.num_frames = int(np.floor(self.project.params.timelen * 16.8))
         print(f"Using {self.project.params.num_frames} frames\n")
@@ -76,13 +77,10 @@ class dataloader:
             test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
             test_dataset = test_dataset.batch(self.project.params.batch_size)
             
-            #test_dataset = tf.data.Dataset.from_tensor_slices((x_val, y_val))
-            #test_dataset = test_dataset.batch(self.project.params.batch_size, drop_remainder=True)
- 
             print('... Test data loaded ...')
             return test_dataset
 
-        elif self.project.params.mode == 'test_subjectwise': #or self.project.params.mode == 'gradcam':
+        elif self.project.params.mode == 'test_subjectwise':
             test_dataset = tf.data.Dataset.from_tensor_slices((x, y))   
             test_dataset = test_dataset.batch(self.project.params.batch_size)
  
@@ -90,10 +88,11 @@ class dataloader:
             return test_dataset
    
     def load_data_2020(self):
-
+        # this function loads the sleep dataset
         x, y, fns = [], [], []
         
         for mice in self.mice_flist:
+            # check the main data path pointing conatining  MVG folders
             fnames = sorted(glob.glob(os.path.join(self.project.params.data_path, "2020-G5", f"{mice}-MVG", "*.mat")))
             if fnames:
                 print(f"Glob {mice} data")
@@ -113,11 +112,11 @@ class dataloader:
         return x, y, fns
      
     def load_data_2016(self):
-
+        # this function loads the dataset containing other states of consciouness
         x, y, fns = [], [], []
         
         for state in self.states:
-
+            # check the main data path pointing conatining MVG folders
             fnames = sorted(glob.glob(os.path.join(self.project.params.data_path, "2016-G5", "MVG", state, '*.mat')))
             if fnames:
                 print(f"Glob 2016 {state} data")
@@ -168,6 +167,7 @@ class dataloader:
         
         x,y = [], []
         
+        # check the main data path pointing conatining  MVG folders
         self.project.params.data_path = os.path.join(self.project.params.data_path, "2020-G5", f"{self.project.params.test_mice}-MVG")
         files = sorted(glob.glob(os.path.join(self.project.params.data_path, "*.mat")), key=lambda x: get_regexp(x, num_key=2))
          
@@ -202,6 +202,7 @@ def write_fnames(fn_train, fn_val, fn_test, mice_flist):
         test_txt.write('\n'.join(fn_test))
    
 def get_regexp(fname, num_key=2):
+    # change the name pattern for your own filenames
     m = re.match(r"(\d+)-(\w+\d+)-fc(\d+)-GSR_G5_epoch(\d+).mat", os.path.basename(fname))
     name_parts = (m.groups())
     if num_key == 2:

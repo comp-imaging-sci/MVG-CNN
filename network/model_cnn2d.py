@@ -12,18 +12,18 @@ from skimage.transform import resize
 import matplotlib.pyplot as plt
 from itertools import cycle
 from utils import *
+# make sure that you have the focal loss package installed
 from focal_loss import SparseCategoricalFocalLoss, BinaryFocalLoss
 
 import matplotlib
 
 def add_arguments(parser):
-    parser.add_argument('--num_epochs', type=int, default=200)
-    parser.add_argument('--lr_init', type=float, default=0.0001)
-    parser.add_argument('--gamma', type=float, default=2)
-    parser.add_argument('--model_continue',action='store_true') 
-    parser.add_argument('--model_savedir',type=str, default='/shared/anastasio-s1/MRI/xiaohui/mouse_optical/sleep-stage/paper/checkpoint')
-    parser.add_argument('--auc_filename',type=str,default='test.mat')
-    parser.add_argument('--gradcam_label', type=int, default=0)
+    parser.add_argument('--num_epochs', type=int, default=200, help='number of epochs in training')
+    parser.add_argument('--lr_init', type=float, default=0.0001, help='learning rate')
+    parser.add_argument('--gamma', type=float, default=2, help='gamma factor used for focal loss')
+    parser.add_argument('--model_continue', action='store_true', help='restart training by loading the most recent saved weights') 
+    parser.add_argument('--model_savedir',type=str, default='/shared/anastasio-s1/MRI/xiaohui/mouse_optical/sleep-stage/paper/checkpoint', help='path to save trained weights')
+    parser.add_argument('--gradcam_label', type=int, default=0, help='states users want to compute for GradCAM')
 
 
     return parser
@@ -140,7 +140,7 @@ class model:
                 }
         
         if self.project.params.mode == 'test_subjectwise':
-            #sio.savemat(os.path.join('../Results', f"{self.project.params.test_mice}_{self.project.params.mice_flist}_{self.project.params.timelen}s.mat"), results)'
+            sio.savemat(os.path.join('../Results', f"{self.project.params.test_mice}_{self.project.params.mice_flist}_{self.project.params.timelen}s.mat"), results)
             print('Saved results ...')
         else:
             sio.savemat(os.path.join('../Results', self.project.params.dataset[11:] + f"_class{self.project.params.num_classes}_test.mat"), results)
@@ -149,7 +149,7 @@ class model:
     
     
     def gradcam(self, dataset):
-
+        # function to compute GradCAM
         import matplotlib.cm as cm
         from tensorflow import keras
         from IPython.display import Image, display
@@ -184,14 +184,8 @@ class model:
                 top_class_channel = preds[:, top_pred_index]
             
             if top_pred_index.numpy() == self.project.params.gradcam_label and top_pred_index.numpy() == y:
-                #print(top_pred_index.numpy(), np.argmax(y))
+    
                 grads = tape.gradient(top_class_channel, last_conv_layer_output)
-                
-                # Guided grad
-                #gate_f = tf.cast(last_conv_layer_output > 0, 'float32')
-                #gate_r = tf.cast(grads > 0, 'float32')
-                #guided_grads = gate_f*gate_r*grads
-                # 
                 
                 pooled_grads = tf.reduce_mean(grads, axis=(0,1,2))
                 last_conv_layer_output = last_conv_layer_output.numpy()[0]
@@ -211,7 +205,7 @@ class model:
                 n = n+1
                 print(n)
 
-                if n == 5:    
+                if n == 5: # define a number of GradCAM to save
                     sio.savemat(f"../Results/gradcam/2020_config14_{self.project.params.test_mice}_class{self.project.params.num_classes}_label{self.project.params.gradcam_label}_{self.project.params.timelen}s_area${self.project.params.brain_area}.mat",{"gradcam": gradcams, "am":ams})
                     print("Grad-CAM saved...")
                     break
@@ -222,21 +216,5 @@ class model:
 
             #plt.imshow(superimposed_img)
             #plt.show()
-
-def focal_loss(gamma=2., alpha=4.):
-    gamma = float(gamma)
-    alpha = float(alpha)
-    def focal_loss_fixed(y_true, y_pred):
-        epsilon = 1.e-9
-        y_true = tf.convert_to_tensor(y_true, tf.float32)
-        y_pred = tf.convert_to_tensor(y_pred, tf.float32)
-
-        model_out = tf.add(y_pred, epsilon)
-        ce = tf.multiply(y_true, -tf.log(model_out))
-        weight = tf.multiply(y_true, tf.pow(tf.subtract(1., model_out), gamma))
-        fl = tf.multiply(alpha, tf.multiply(weight, ce))
-        reduced_fl = tf.reduce_max(fl, axis=1)
-        return tf.reduce_mean(reduced_fl)
-    return focal_loss_fixed
 
 
