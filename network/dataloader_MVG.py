@@ -15,7 +15,7 @@ class project_params:
     
 def add_arguments(parser):
     parser.add_argument('--data_path', type=str, default='./parent/directory/to/the/main/data/path')
-    parser.add_argument('--mice_flist', type=str, default='./config1.txt', help='configuration txt file containing the mouse name used for training and validation')
+    parser.add_argument('--mice_flist', type=str, default='./config.txt', help='configuration txt file containing the mouse name used for training and validation')
     parser.add_argument('--batch_size', type=int, default=8, help='batch size used in training')
     parser.add_argument('--seed', type=int, default=42, help='a defined seed used globally')
     parser.add_argument('--num_classes', type=int, default=3, help='2/3/4')
