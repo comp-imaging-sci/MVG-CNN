@@ -29,7 +29,7 @@ conda env create --file environment.yml
 ```
  
 ## Dataset
-The WFCI data in this paper is available at PhysioNet: 
+The WFCI data in this paper is available on [PhysioNet](https://physionet.org/content/calcium-imaging-sleep-state/1.0.0/): 
 
 ## Construction of multiplex visibility graph
 The directory `MVG` contains the following sub-directories:
@@ -47,7 +47,7 @@ The directory `network training` contains the top level scripts:
 - `utils.py`: script to compute evaluation metrics
 - `config.txt`: example txt. file for defining list of subjects used in training and validation
 - `train.sh`: Scripts for running the network training.
-- `checkpoints`: checkpoints for best model
+- `checkpoints`: a pretrained model in our paper is included.
 
 To train the network, make sure to 
 - Modify the data path highlighted in comment in `dataloader_MVG.py`.
@@ -57,6 +57,8 @@ To train the network, make sure to
 
 ## Citations
 ```
+1. Landsness, E., & Zhang, X. (2021). Wide-field calcium imaging sleep state database (version 1.0.0). PhysioNet. https://doi.org/10.13026/jzqa-j937.
+2. Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... & Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.
 ```
 ## References
 ```
