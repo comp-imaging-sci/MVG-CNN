@@ -5,7 +5,7 @@ University of Illinois at Urbana-Champaign, Urbana, IL - 61801, USA <br>
 Washington University School of Medicine<br>
 Washington University School of Engineering<br>
 
-**Contact:** xiaohui8@illinois.edu, maa@illinois.edu
+**Contact:** xiaohui8@illinois.edu, landsness@wustl.edu, maa@illinois.edu
 
 **Abstract:** Wide-field calcium imaging (WFCI) allows for monitoring of cortex-wide neural dynamics in mice. When applied to the study of sleep, WFCI data are manually scored into the sleep states of wake, non-REM (NREM) and REM by use of adjunct EEG and EMG recordings. However, this process is time consuming and often suffers from low inter- and intra-rater reliability and invasiveness. Therefore, an automated sleep state classification method that operates on WFCI data alone is needed. A hybrid, two-step method is proposed. In the first step, spatial-temporal WFCI data is mapped to a multiplex visibility graph (MVG). Subsequently, a two-dimensional convolutional neural network (2D CNN) is employed on the MVGs to be classified as wake, NREM and REM.
 <p align="center">
