@@ -58,7 +58,7 @@ To train the network, make sure to
 ## Citations
 ```
 1. Landsness, E., & Zhang, X. (2021). Wide-field calcium imaging sleep state database (version 1.0.0). PhysioNet. https://doi.org/10.13026/jzqa-j937.
-2. Goldberger, A., Amaral, L., Glass, L., Hausdorff, J., Ivanov, P. C., Mark, R., ... & Stanley, H. E. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. Circulation [Online]. 101 (23), pp. e215–e220.
+2. Zhang, X., Landsness, E. C., Chen, W., Miao, H., Tang, M., Brier, L. M., ... & Anastasio, M. A. (2021). Automated sleep state classification of wide-field calcium imaging data via multiplex visibility graphs and deep learning. Journal of Neuroscience Methods, 109421.
 ```
 ## References
 ```
